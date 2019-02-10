@@ -99,7 +99,7 @@
             margin: { top: 40, right: 200, bottom: 70, left: 100 },
             xlabel: "Inefficiency (%)",
             ylabel: "Quality (Kbps)"
-  				});
+          });
           new Chart({
             task: 4,
             element: d3.select("#task4"),
@@ -108,11 +108,11 @@
               .key(d => d.method)
               .rollup(x => d3.sum(x,d => d.numStall))
               .entries(dataset.filter(d => d.sample === "v7"))
-              .map(x0 => x0.values.map(x1 => ({
+              .map(x0 => x0.values.map(x1 => {
                 profile: x0.key,
                 method: x1.key,
                 numStall: x1.value
-              })))
+              }))
               .reduce((d1,d2) => d1.concat(d2),[]),
             width: 700,
             height: 300,
