@@ -152,7 +152,7 @@ class Chart {
           "Method: <strong>" + d.method + "</strong><br/>" +
           "Average QoE: <strong>" + d.avgQoe.toFixed(2) + "</strong>"
         ))
-      .on("mouseout",() => d3.selectAll(".tooltip").remove())
+      .on("mouseout",() => d3.selectAll(".tooltip").remove());
   }
 
   createTask3() {
@@ -313,7 +313,7 @@ class Chart {
     	.enter()
       .append("stop")
     	.attr("offset",(d,i) => countScale(countPoint[i])/this.width)
-    	.attr("stop-color",(d,i) => colors(countPoint[i]))
+    	.attr("stop-color",(d,i) => colors(countPoint[i]));
 
     this.legend.append("text")
     	.attr("class","legend-title")
@@ -564,14 +564,14 @@ class Chart {
     let sumXY = x.map((n,i) => n * y[i]).reduce(add);
     let m = (n * sumXY - sumX * sumY) / (n * sumX2 - pow(sumX,2));
     let b = (sumY - m * sumX) / n;
-    let r = (n * sumXY - sumX * sumY) / sqrt((n * sumX2 - pow(sumX,2)) * (n * sumY2 - pow(sumY,2)))
-    let r2 = pow(r,2)
+    let r = (n * sumXY - sumX * sumY) / sqrt((n * sumX2 - pow(sumX,2)) * (n * sumY2 - pow(sumY,2)));
+    let r2 = pow(r,2);
 
-    x1 = x1 || x.reduce((n1,n2) => n1 < n2 ? n1 : n2, x[0])
-    x2 = x2 || x.reduce((n1,n2) => n1 > n2 ? n1 : n2, x[0])
-    let y1 = m * x1 + b
-    let y2 = m * x2 + b
-    return [x1,x2,y1,y2,r,r2]
+    x1 = x1 || x.reduce((n1,n2) => n1 < n2 ? n1 : n2, x[0]);
+    x2 = x2 || x.reduce((n1,n2) => n1 > n2 ? n1 : n2, x[0]);
+    let y1 = m * x1 + b;
+    let y2 = m * x2 + b;
+    return [x1,x2,y1,y2,r,r2];
   }
 
   updateRegression() {
