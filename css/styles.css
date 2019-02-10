@@ -22,8 +22,8 @@ header > p {
 }
 line.regression {
   stroke: red;
-	stroke-width: 2px;
-	stroke-dasharray: 10 10;
+  stroke-width: 2px;
+  stroke-dasharray: 10 10;
 }
 .x-axis > text, .y-axis > text {
   font-size: 12px;
