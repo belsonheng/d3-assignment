@@ -85,10 +85,10 @@
             xlabel: "Buffer Capacity Configuration",
             ylabel: "Average QoE"
           });
-  				new Chart({
-  					task: 3,
+          new Chart({
+            task: 3,
             element: d3.select("#task3"),
-  					dataset: dataset.map(d => ({
+            dataset: dataset.map(d => ({
               bufSize: d.bufSize,
               method: d.method,
               quality: d.quality,
@@ -119,10 +119,10 @@
             margin: { top: 40, right: 200, bottom: 70, left: 200 },
             ylabel: "Network Profiles"
           });
-  			})
-  			.catch(err => {
-  				console.log(err);
-  			});
+        })
+        .catch(err => {
+          console.log(err);
+        });
     </script>
   </body>
 </html>
