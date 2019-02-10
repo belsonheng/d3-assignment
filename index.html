@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assignment 1</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/d3.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>CS5346 Information Visualization - Assignment 1</h1>
+      <p>
+        <em>Note:</em> There are 3 buffer configurations, namely <strong>30/60</strong>, <strong>120</strong> and <strong>240</strong>.
+        For <a href="#task1">Task 1</a>, <a href="#task2">Task 2</a> and <a href="#task3">Task 3</a>, each method is represented by different colors according to the legend on the right.
+        To investigate certain method(s) of interest, we can hover over the respective legend item and click on it to lock/remove our selection(s).
+        For more information, we can hover over each data point to view the tooltip.
+      </p>
+    </header>
+    <main>
+      <div id="task1">
+        <h2 class="section-title">Task 1: Average quality and number of changes in quality for a method. Each buffer configuration should have separate plot.</h2>
+      </div>
+      <div id="task2">
+        <h2 class="section-title">Task 2: Average QoE for a method grouped by different buffer configuration.</h2>
+      </div>
+      <div id="task3">
+        <h2 class="section-title">Task 3: Correlation between inefficiency and quality for all methods in different buffer configurations.</h2>
+      </div>
+      <div id="task4">
+        <h2 class="section-title">Task 4: The methods which have the minimum number of stalls for video V7 under different network profiles.</h2>
+      </div>
+    </main>
+    <script src="js/chart.js"></script>
+    <script>
+      d3.csv("data/results.csv")
+  			.then(dataset => {
+          dataset.forEach((d) => {
+            d.quality = +d.quality;
+            d.inefficiency = +d.inefficiency;
+            d.qoe = +d.qoe;
+            d.numStall = +d.numStall;
+          });
+          new Chart({
+            task: 1,
+            element: d3.select("#task1"),
+            dataset: d3.nest()
+              .key(d => d.bufSize)
+              .key(d => d.method)
+              .rollup(x => ({
+                avgQuality: d3.mean(x,d => d.quality),
+                avgChange: d3.mean(x,d => d.change)
+              }))
+              .entries(dataset)
+              .map(x0 => x0.values.map(x1 => ({
+                bufSize: x0.key,
+                method: x1.key,
+                avgQuality: x1.value.avgQuality,
+                avgChange: x1.value.avgChange
+              }))),
+            width: 700,
+            height: 700,
+            margin: { top: 40, right: 200, bottom: 130, left: 100 },
+            xlabel: "Average Number of Change",
+            ylabel: "Average Quality"
+          });
+          new Chart({
+            task: 2,
+            element: d3.select("#task2"),
+            dataset: d3.nest()
+              .key(d => d.bufSize)
+              .key(d => d.method)
+              .rollup(x => d3.mean(x,d => d.qoe))
+              .entries(dataset)
+              .map(x0 => x0.values.map(x1 => ({
+                bufSize: x0.key,
+                method: x1.key,
+                avgQoe: x1.value
+              })))
+              .reduce((d1,d2) => d1.concat(d2),[]),
+            width: 700,
+            height: 300,
+            margin: { top: 40, right: 200, bottom: 70, left: 100 },
+            xlabel: "Buffer Capacity Configuration",
+            ylabel: "Average QoE"
+          });
+  				new Chart({
+  					task: 3,
+            element: d3.select("#task3"),
+  					dataset: dataset.map(d => ({
+              bufSize: d.bufSize,
+              method: d.method,
+              quality: d.quality,
+              inefficiency: d.inefficiency
+            })),
+            width: 700,
+            height: 900,
+            margin: { top: 40, right: 200, bottom: 70, left: 100 },
+            xlabel: "Inefficiency (%)",
+            ylabel: "Quality (Kbps)"
+  				});
+          new Chart({
+            task: 4,
+            element: d3.select("#task4"),
+            dataset: d3.nest()
+              .key(d => d.profile)
+              .key(d => d.method)
+              .rollup(x => d3.sum(x,d => d.numStall))
+              .entries(dataset.filter(d => d.sample === "v7"))
+              .map(x0 => x0.values.map(x1 => ({
+                profile: x0.key,
+                method: x1.key,
+                numStall: x1.value
+              })))
+              .reduce((d1,d2) => d1.concat(d2),[]),
+            width: 700,
+            height: 300,
+            margin: { top: 40, right: 200, bottom: 70, left: 200 },
+            ylabel: "Network Profiles"
+          });
+  			})
+  			.catch(err => {
+  				console.log(err);
+  			});
+    </script>
+  </body>
+</html>

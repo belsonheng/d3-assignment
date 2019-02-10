@@ -1,0 +1,72 @@
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+    margin: 0 auto;
+    width: 90%;
+    min-width: 1280px;
+}
+em {
+  color: red;
+}
+header, main > div {
+  text-align: center;
+}
+header > p {
+  margin: 0 auto;
+  text-align: justify;
+  line-height: 1.5;
+  padding: 1.5em 0;
+  width: 70%;
+  font-size: 1.3em;
+  color: #4F4F4F;
+}
+line.regression {
+  stroke: red;
+	stroke-width: 2px;
+	stroke-dasharray: 10 10;
+}
+.x-axis > text, .y-axis > text {
+  font-size: 12px;
+  font-weight: 700;
+}
+.grid {
+  opacity: .3;
+  stroke-width: .5;
+}
+.tooltip {
+  position: absolute;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #000000;
+  padding: 14px;
+  text-align: left;
+}
+.legend-title {
+  fill: #4F4F4F;
+  font-weight: 700;
+}
+.legend-data {
+  cursor: pointer;
+}
+.legend-data > path {
+  fill: none;
+  stroke: #000;
+}
+.legend-data > path.selected {
+  fill: #000;
+}
+.disabled > rect {
+  fill: #fff;
+}
+.disabled.data {
+  opacity: .1;
+}
+.section-title {
+  background-color: #d3d3d3;
+  padding: 1.5em 0;
+  border-radius: 50px 20px;
+}
+#task3 .plot:not(:last-child) > .x-axis > path {
+  stroke-dasharray: 5 5;
+}
