@@ -35,7 +35,7 @@
     <script src="js/chart.js"></script>
     <script>
       d3.csv("data/results.csv")
-  			.then(dataset => {
+        .then(dataset => {
           dataset.forEach((d) => {
             d.quality = +d.quality;
             d.inefficiency = +d.inefficiency;
